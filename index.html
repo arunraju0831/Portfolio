@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A personal portfolio for [Your Name].">
+  <meta name="theme-color" content="#f7f5ef">
+  <title>[Your Name] — Portfolio</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f7f5ef;
+      --surface: #fffefa;
+      --ink: #202820;
+      --muted: #687168;
+      --green: #355b46;
+      --green-dark: #284735;
+      --line: #e4e6dc;
+      --lime: #dce8a8;
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: "Segoe UI", Arial, sans-serif;
+      font-family: var(--sans);
+      color: var(--ink);
+      background: var(--paper);
+      scroll-behavior: smooth;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-width: 320px;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    a:focus-visible {
+      outline: 3px solid #8da969;
+      outline-offset: 4px;
+      border-radius: 4px;
+    }
+
+    .page-shell {
+      width: min(1120px, calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 88px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .wordmark {
+      color: var(--green-dark);
+      font-family: var(--serif);
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      text-decoration: none;
+    }
+
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: clamp(18px, 3vw, 36px);
+    }
+
+    .site-nav a {
+      color: var(--muted);
+      font-size: 0.88rem;
+      text-decoration: none;
+      transition: color 160ms ease;
+    }
+
+    .site-nav a:hover {
+      color: var(--green-dark);
+    }
+
+    .site-nav .nav-cta {
+      padding: 10px 16px;
+      border: 1px solid var(--green);
+      border-radius: 999px;
+      color: var(--green-dark);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.8fr);
+      align-items: center;
+      gap: clamp(48px, 9vw, 112px);
+      padding: clamp(76px, 11vw, 132px) 0 clamp(88px, 12vw, 144px);
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 22px;
+      color: var(--green);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      width: 25px;
+      height: 1px;
+      background: currentColor;
+      content: "";
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1,
+    h2,
+    .certification-name {
+      font-family: var(--serif);
+      font-weight: 400;
+      letter-spacing: -0.045em;
+    }
+
+    h1 {
+      max-width: 620px;
+      margin-bottom: 24px;
+      font-size: clamp(3.2rem, 7vw, 6.1rem);
+      line-height: 0.99;
+    }
+
+    h1 span {
+      color: var(--green);
+      font-style: italic;
+    }
+
+    .hero-copy {
+      max-width: 490px;
+      margin-bottom: 34px;
+      color: var(--muted);
+      font-size: clamp(1rem, 1.5vw, 1.12rem);
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 52px;
+      padding: 0 22px;
+      border-radius: 999px;
+      background: var(--green);
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 650;
+      text-decoration: none;
+      transition: background 160ms ease, transform 160ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      background: var(--green-dark);
+    }
+
+    .button svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    .portrait-wrap {
+      position: relative;
+      width: min(100%, 365px);
+      justify-self: end;
+      padding: 0 18px 18px 0;
+    }
+
+    .portrait-wrap::before {
+      position: absolute;
+      z-index: -1;
+      inset: 18px 0 0 18px;
+      border-radius: 48% 48% 18px 18px;
+      background: var(--lime);
+      content: "";
+    }
+
+    .portrait {
+      position: relative;
+      display: grid;
+      min-height: 420px;
+      overflow: hidden;
+      place-items: center;
+      border: 1px solid rgba(53, 91, 70, 0.1);
+      border-radius: 48% 48% 18px 18px;
+      background:
+        radial-gradient(ellipse at 50% 34%, rgba(255, 255, 255, 0.72), transparent 48%),
+        linear-gradient(155deg, #e8ebdd, #cad8be);
+      text-align: center;
+    }
+
+    .portrait-photo {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .portrait-fallback {
+      display: grid;
+      justify-items: center;
+      gap: 9px;
+      padding: 24px;
+      color: var(--green-dark);
+    }
+
+    .portrait-fallback svg {
+      width: 64px;
+      height: 64px;
+      opacity: 0.7;
+    }
+
+    .portrait-fallback strong {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      font-weight: 400;
+    }
+
+    .portrait-fallback span {
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    .section {
+      padding: clamp(72px, 10vw, 112px) 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-heading {
+      display: grid;
+      grid-template-columns: minmax(0, 0.8fr) minmax(280px, 1fr);
+      align-items: end;
+      gap: 40px;
+      margin-bottom: 52px;
+    }
+
+    .section-heading .eyebrow {
+      grid-column: 1 / -1;
+      margin-bottom: -20px;
+    }
+
+    h2 {
+      margin-bottom: 0;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      line-height: 1.05;
+    }
+
+    .section-intro {
+      max-width: 470px;
+      margin-bottom: 4px;
+      color: var(--muted);
+    }
+
+    .about-copy {
+      max-width: 760px;
+      color: #4e594f;
+      font-family: var(--serif);
+      font-size: clamp(1.35rem, 2.4vw, 2rem);
+      line-height: 1.55;
+    }
+
+    .about-copy strong {
+      color: var(--green-dark);
+      font-weight: 400;
+    }
+
+    .skills-section {
+      background: #edf0e7;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .skill-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 88px;
+      padding: 18px 22px;
+      border: 1px solid #dfe4d8;
+      border-radius: 12px;
+      background: rgba(255, 254, 250, 0.7);
+      color: var(--ink);
+      font-size: 0.96rem;
+    }
+
+    .skill-card span:last-child {
+      color: #82937e;
+      font-family: var(--serif);
+      font-size: 1.2rem;
+    }
+
+    .certifications-list {
+      border-top: 1px solid var(--line);
+    }
+
+    .certification {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px 24px;
+      padding: 27px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .certification-name {
+      margin-bottom: 4px;
+      font-size: 1.55rem;
+    }
+
+    .certification-issuer {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .certification-year {
+      align-self: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .contact-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      margin: clamp(72px, 10vw, 112px) 0;
+      padding: clamp(32px, 6vw, 64px);
+      border-radius: 18px;
+      background: var(--green-dark);
+      color: #fff;
+    }
+
+    .contact-section .eyebrow {
+      color: var(--lime);
+    }
+
+    .contact-section h2 {
+      max-width: 540px;
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+    }
+
+    .contact-link {
+      flex: 0 0 auto;
+      padding: 13px 20px;
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      border-radius: 999px;
+      color: #fff;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: background 160ms ease;
+    }
+
+    .contact-link:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .site-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 0 0 32px;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .site-footer p {
+      margin-bottom: 0;
+    }
+
+    .site-footer a {
+      text-decoration-color: #a7b0a5;
+      text-underline-offset: 3px;
+    }
+
+    @media (max-width: 760px) {
+      .page-shell {
+        width: min(100% - 36px, 600px);
+      }
+
+      .site-header {
+        min-height: 72px;
+      }
+
+      .site-nav {
+        gap: 16px;
+      }
+
+      .site-nav a {
+        font-size: 0.8rem;
+      }
+
+      .site-nav .nav-cta {
+        padding: 8px 12px;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 52px;
+        padding: 72px 0 88px;
+      }
+
+      .portrait-wrap {
+        width: min(78%, 360px);
+        justify-self: center;
+      }
+
+      .portrait {
+        min-height: 380px;
+      }
+
+      .section-heading {
+        grid-template-columns: 1fr;
+        gap: 22px;
+        margin-bottom: 38px;
+      }
+
+      .section-heading .eyebrow {
+        margin-bottom: -10px;
+      }
+
+      .skills-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .contact-section {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 450px) {
+      .page-shell {
+        width: calc(100% - 32px);
+      }
+
+      .site-nav {
+        gap: 11px;
+      }
+
+      .site-nav a {
+        font-size: 0.73rem;
+      }
+
+      .site-nav .nav-cta {
+        padding: 7px 10px;
+      }
+
+      h1 {
+        font-size: clamp(2.8rem, 15vw, 4rem);
+      }
+
+      .portrait {
+        min-height: 330px;
+      }
+
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .skill-card {
+        min-height: 72px;
+      }
+
+      .certification {
+        grid-template-columns: 1fr;
+        gap: 5px;
+      }
+
+      .certification-year {
+        grid-row: 1;
+      }
+
+      .site-footer {
+        flex-direction: column;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header page-shell">
+    <a class="wordmark" href="#home" aria-label="Go to the top of the page">[Your Name]</a>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#certifications">Certificates</a>
+      <a class="nav-cta" href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero page-shell" id="home" aria-labelledby="hero-title">
+      <div>
+        <p class="eyebrow">Portfolio · [Your field or specialty]</p>
+        <h1 id="hero-title">Hello, I’m <span>[Your Name].</span></h1>
+        <p class="hero-copy">[Add a short introduction about what you do, the work you enjoy, and what you’re looking for.]</p>
+        <a class="button" href="assets/your-cv.pdf" download>
+          Download my CV
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 3v12m0 0 4-4m-4 4-4-4M5 17v3h14v-3"></path>
+          </svg>
+        </a>
+      </div>
+      <div class="portrait-wrap">
+        <div class="portrait">
+          <img class="portrait-photo" src="assets/your-photo.jpg" alt="Portrait of [Your Name]">
+          <div class="portrait-fallback">
+            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <circle cx="32" cy="23" r="11"></circle>
+              <path d="M12 56c1.7-12 9.2-18 20-18s18.3 6 20 18"></path>
+            </svg>
+            <strong>Add your profile photo</strong>
+            <span>Replace assets/your-photo.jpg</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section page-shell" id="about" aria-labelledby="about-title">
+      <div class="section-heading">
+        <p class="eyebrow">A little about me</p>
+        <h2 id="about-title">The person behind the work.</h2>
+        <p class="section-intro">Make this space your own. A few honest details help visitors understand your experience, interests, and the value you bring.</p>
+      </div>
+      <p class="about-copy"><strong>[Write two or three sentences about your background, what motivates you, and the kind of work you want to do.]</strong></p>
+    </section>
+
+    <section class="section skills-section" id="skills" aria-labelledby="skills-title">
+      <div class="page-shell">
+        <div class="section-heading">
+          <p class="eyebrow">What I work with</p>
+          <h2 id="skills-title">Skills &amp; strengths.</h2>
+          <p class="section-intro">Add the tools, technologies, and strengths you can speak to. Remove any cards you don’t need.</p>
+        </div>
+        <div class="skills-grid">
+          <div class="skill-card"><span>[Add a skill]</span><span aria-hidden="true">01</span></div>
+          <div class="skill-card"><span>[Add a skill]</span><span aria-hidden="true">02</span></div>
+          <div class="skill-card"><span>[Add a skill]</span><span aria-hidden="true">03</span></div>
+          <div class="skill-card"><span>[Add a skill]</span><span aria-hidden="true">04</span></div>
+          <div class="skill-card"><span>[Add a skill]</span><span aria-hidden="true">05</span></div>
+          <div class="skill-card"><span>[Add a skill]</span><span aria-hidden="true">06</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section page-shell" id="certifications" aria-labelledby="certifications-title">
+      <div class="section-heading">
+        <p class="eyebrow">Learning &amp; growth</p>
+        <h2 id="certifications-title">Certifications.</h2>
+        <p class="section-intro">List certifications you’ve earned, with the issuing organization and year. Leave out this section if it doesn’t apply.</p>
+      </div>
+      <div class="certifications-list">
+        <article class="certification">
+          <div>
+            <h3 class="certification-name">[Certification name]</h3>
+            <p class="certification-issuer">[Issuing organization]</p>
+          </div>
+          <span class="certification-year">[Year]</span>
+        </article>
+        <article class="certification">
+          <div>
+            <h3 class="certification-name">[Certification name]</h3>
+            <p class="certification-issuer">[Issuing organization]</p>
+          </div>
+          <span class="certification-year">[Year]</span>
+        </article>
+        <article class="certification">
+          <div>
+            <h3 class="certification-name">[Certification name]</h3>
+            <p class="certification-issuer">[Issuing organization]</p>
+          </div>
+          <span class="certification-year">[Year]</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="contact-section page-shell" id="contact" aria-labelledby="contact-title">
+      <div>
+        <p class="eyebrow">Say hello</p>
+        <h2 id="contact-title">Have a project or opportunity in mind?</h2>
+      </div>
+      <a class="contact-link" href="mailto:your.email@example.com">your.email@example.com</a>
+    </section>
+  </main>
+
+  <footer class="site-footer page-shell">
+    <p>© <span id="year">[Year]</span> [Your Name].</p>
+    <p>Made with care. <a href="#home">Back to top ↑</a></p>
+  </footer>
+
+  <script>
+    const portrait = document.querySelector(".portrait-photo");
+    const portraitFallback = document.querySelector(".portrait-fallback");
+
+    portrait.addEventListener("load", () => {
+      portraitFallback.hidden = true;
+    });
+
+    portrait.addEventListener("error", () => {
+      portrait.hidden = true;
+    });
+
+    document.querySelector("#year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
